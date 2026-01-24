@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "fsm-designer": {
+    "maze-generator": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -56,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "fsm-designer:build:production"
+              "buildTarget": "maze-generator:build:production"
             },
             "development": {
-              "buildTarget": "fsm-designer:build:development"
+              "buildTarget": "maze-generator:build:development"
             }
           },
           "defaultConfiguration": "development"
