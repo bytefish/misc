@@ -2,7 +2,9 @@ import { Component, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
 
-
+/**
+ * Interface für die Übersetzungen und Sprachkonfiguration
+ */
 interface I18nConfig {
   title: string;
   solutionLabel: string;
@@ -26,6 +28,9 @@ interface I18nConfig {
   starterWords: string[];
 }
 
+/**
+ * Die verschiedenen Sprachpakete
+ */
 const LANGUAGES: { [key: string]: I18nConfig } = {
   de: {
     title: 'Wortsalat',
@@ -188,6 +193,7 @@ interface PlacedWord {
           </div>
 
           <div class="p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- 1. Wort-Eingabe -->
             <div class="space-y-4 min-w-0">
               <h3 class="text-sm font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
                 <span class="w-2 h-2 bg-indigo-500 rounded-full"></span> {{ t().step1 }}
@@ -208,6 +214,7 @@ interface PlacedWord {
               </div>
             </div>
 
+            <!-- 2. Gitter-Konfiguration -->
             <div class="space-y-4 border-l border-slate-100 lg:pl-8 min-w-0">
               <h3 class="text-sm font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
                 <span class="w-2 h-2 bg-indigo-500 rounded-full"></span> {{ t().step2 }}
@@ -228,6 +235,7 @@ interface PlacedWord {
                   </div>
                 </div>
 
+                <!-- Manuelle Eingabe -->
                 <div class="space-y-2">
                   <label class="text-[10px] font-bold text-slate-400 uppercase block">{{ t().manualSize }}</label>
                   <div class="grid grid-cols-2 gap-3 p-3 bg-slate-50 rounded-2xl border-2 border-slate-100">
@@ -244,6 +252,7 @@ interface PlacedWord {
               </div>
             </div>
 
+            <!-- 3. Regeln -->
             <div class="space-y-4 border-l border-slate-100 lg:pl-8 min-w-0">
               <h3 class="text-sm font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
                 <span class="w-2 h-2 bg-indigo-500 rounded-full"></span> {{ t().step3 }}
@@ -273,6 +282,7 @@ interface PlacedWord {
         </div>
       </div>
 
+      <!-- Druckbares Blatt (A4) - Optimiert für eine Seite -->
       <div id="puzzle-sheet" class="max-w-[210mm] mx-auto bg-white p-6 md:p-8 print:p-0 print:shadow-none shadow-2xl rounded-sm print:m-0 relative overflow-visible">
 
         <header class="mb-4">
@@ -290,29 +300,24 @@ interface PlacedWord {
              [style.max-width]="'600px'"
              [style.aspect-ratio]="cols() + '/' + rows()">
 
+          <!-- Ebene 1: Die Lösungsebene (Pills mit grauem Hintergrund) -->
           @if (showSolution()) {
             <svg class="absolute top-0 left-0 w-full h-full pointer-events-none overflow-visible z-10"
                  [attr.viewBox]="'0 0 ' + (cols() * 10) + ' ' + (rows() * 10)"
                  preserveAspectRatio="none"
                  style="display: block;">
               @for (pw of placedWords(); track $index) {
-                <g>
-                  <!-- Kräftiger Rahmen um das Wort -->
-                  <line
-                    [attr.x1]="pw.x * 10 + 5"
-                    [attr.y1]="pw.y * 10 + 5"
-                    [attr.x2]="(pw.x + pw.dx * (pw.word.length - 1)) * 10 + 5"
-                    [attr.y2]="(pw.y + pw.dy * (pw.word.length - 1)) * 10 + 5"
-                    stroke-linecap="round" stroke="black" stroke-width="12.5"
-                  />
-                  <line
-                    [attr.x1]="pw.x * 10 + 5"
-                    [attr.y1]="pw.y * 10 + 5"
-                    [attr.x2]="(pw.x + pw.dx * (pw.word.length - 1)) * 10 + 5"
-                    [attr.y2]="(pw.y + pw.dy * (pw.word.length - 1)) * 10 + 5"
-                    stroke-linecap="round" stroke="white" stroke-width="9.5"
-                  />
-                </g>
+                <!-- Pills/Kapseln als Hervorhebung -->
+                <line
+                  [attr.x1]="pw.x * 10 + 5"
+                  [attr.y1]="pw.y * 10 + 5"
+                  [attr.x2]="(pw.x + pw.dx * (pw.word.length - 1)) * 10 + 5"
+                  [attr.y2]="(pw.y + pw.dy * (pw.word.length - 1)) * 10 + 5"
+                  stroke-linecap="round"
+                  stroke="rgba(200, 200, 200, 0.6)"
+                  stroke-width="8.5"
+                  class="print:stroke-slate-200"
+                />
               }
             </svg>
           }
@@ -332,7 +337,7 @@ interface PlacedWord {
           </div>
         </div>
 
-        <!-- Wortliste zum Suchen - Kleiner gestaltet -->
+        <!-- Wortliste zum Suchen -->
         <div class="mt-6 border-t-2 border-black pt-4">
           <h3 class="text-lg font-black uppercase mb-4 italic tracking-tight">{{ t().listHeader }}</h3>
           <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-2 gap-x-6">
