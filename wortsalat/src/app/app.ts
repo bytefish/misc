@@ -362,8 +362,8 @@ interface PlacedWord {
   `]
 })
 export class App implements OnInit {
-  lang = signal<string>('de');
-  t = computed(() => LANGUAGES[this.lang()] || LANGUAGES['de']);
+  lang = signal<string>('en');
+  t = computed(() => LANGUAGES[this.lang()] || LANGUAGES['en']);
 
   availableLangs = [
     { id: 'de', label: 'Deutsch' },
