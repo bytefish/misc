@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "fsm-designer": {
+    "csv-explorer": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -28,6 +28,15 @@
                 "input": "node_modules/sql.js/dist",
                 "output": "assets"
               }
+            ],
+            "allowedCommonJsDependencies": [
+              "sql.js",
+              "papaparse"
+            ],
+            "externalDependencies": [
+              "crypto",
+              "fs",
+              "path"
             ],
             "styles": [
               "src/styles.css"
@@ -61,10 +70,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "fsm-designer:build:production"
+              "buildTarget": "csv-explorer:build:production"
             },
             "development": {
-              "buildTarget": "fsm-designer:build:development"
+              "buildTarget": "csv-explorer:build:development"
             }
           },
           "defaultConfiguration": "development"
