@@ -1,0 +1,92 @@
+[
+  {
+    "id": "de-1",
+    "language": "Deutsch",
+    "title": "Adjektivendungen & Artikel",
+    "description": "Fill in the missing endings.",
+    "segments": [
+      { "type": "text", "content": "Das ist ein schnell" },
+      { "type": "gap", "answer": "es", "placeholder": "..", "isEnding": true },
+      { "type": "text", "content": " Auto. Ich sehe den groß" },
+      { "type": "gap", "answer": "en", "placeholder": "..", "isEnding": true },
+      { "type": "text", "content": " Hund in dem grün" },
+      { "type": "gap", "answer": "en", "placeholder": "..", "isEnding": true },
+      { "type": "text", "content": " Garten." }
+    ]
+  },
+  {
+    "id": "de-2",
+    "language": "Deutsch",
+    "title": "Das oder Dass?",
+    "description": "Decide: Relative pronoun/article or conjunction?",
+    "segments": [
+      { "type": "text", "content": "Ich glaube, " },
+      { "type": "gap", "answer": "dass", "placeholder": "das/dass" },
+      { "type": "text", "content": " er recht hat. Das Kind, " },
+      { "type": "gap", "answer": "das", "placeholder": "das/dass" },
+      { "type": "text", "content": " dort spielt, ist mein Bruder. Ich weiß, " },
+      { "type": "gap", "answer": "dass", "placeholder": "das/dass" },
+      { "type": "text", "content": " es spät ist." }
+    ]
+  },
+  {
+    "id": "en-1",
+    "language": "Englisch",
+    "title": "Irregular Verbs (Past Simple)",
+    "description": "Fill in the gaps with the correct past tense form.",
+    "segments": [
+      { "type": "text", "content": "Yesterday, I " },
+      { "type": "gap", "answer": "went", "placeholder": "go" },
+      { "type": "text", "content": " to the park. It " },
+      { "type": "gap", "answer": "was", "placeholder": "be" },
+      { "type": "text", "content": " a sunny day. We " },
+      { "type": "gap", "answer": "saw", "placeholder": "see" },
+      { "type": "text", "content": " a lot of birds." }
+    ]
+  },
+  {
+    "id": "en-2",
+    "language": "Englisch",
+    "title": "Prepositions",
+    "description": "Fill in the correct prepositions (in, on, at).",
+    "segments": [
+      { "type": "text", "content": "The book is " },
+      { "type": "gap", "answer": "on", "placeholder": "..." },
+      { "type": "text", "content": " the table. She lives " },
+      { "type": "gap", "answer": "in", "placeholder": "..." },
+      { "type": "text", "content": " London. See you " },
+      { "type": "gap", "answer": "at", "placeholder": "..." },
+      { "type": "text", "content": " 5 o'clock." }
+    ]
+  },
+  {
+    "id": "fr-1",
+    "language": "Französisch",
+    "title": "Le Verbe 'Être'",
+    "description": "Conjugate the verb 'to be' (être).",
+    "segments": [
+      { "type": "text", "content": "Je " },
+      { "type": "gap", "answer": "suis", "placeholder": "..." },
+      { "type": "text", "content": " étudiant. Tu " },
+      { "type": "gap", "answer": "es", "placeholder": "..." },
+      { "type": "text", "content": " très gentil. Nous " },
+      { "type": "gap", "answer": "sommes", "placeholder": "..." },
+      { "type": "text", "content": " heureux." }
+    ]
+  },
+  {
+    "id": "es-1",
+    "language": "Spanisch",
+    "title": "Ser vs. Estar",
+    "description": "Choose the correct form.",
+    "segments": [
+      { "type": "text", "content": "Yo " },
+      { "type": "gap", "answer": "soy", "placeholder": "ser" },
+      { "type": "text", "content": " de Madrid, pero ahora " },
+      { "type": "gap", "answer": "estoy", "placeholder": "estar" },
+      { "type": "text", "content": " en Barcelona. La fiesta " },
+      { "type": "gap", "answer": "es", "placeholder": "ser" },
+      { "type": "text", "content": " mañana." }
+    ]
+  }
+]
