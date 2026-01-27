@@ -143,7 +143,7 @@ interface ViewItem {
               <div class="flex justify-between items-start flex-wrap gap-4">
                 <div>
                   <h2 class="text-2xl font-extrabold text-slate-800 mb-2">{{ lesson.title }}</h2>
-                  <p class="text-slate-600 font-medium">{{ lesson.description }}</p>
+                  <p class="text-slate-600 font-medium">{{ lesson.description[uiLangCode()] || lesson.description['EN'] }}</p>
                 </div>
 
                 @if (isChecked()) {

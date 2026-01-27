@@ -12,6 +12,6 @@ export interface Lesson {
   id: string;
   language: string;
   title: string;
-  description: string;
+  description: Record<string, string>;
   segments: Segment[];
 }
