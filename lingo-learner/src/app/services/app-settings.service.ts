@@ -14,7 +14,7 @@ export class AppSettingsService {
   constructor(private http: HttpClient) {}
 
   async loadAppSettings() {
-    const appSettings = await lastValueFrom(this.http.get<AppSettings>('/assets/appsettings.json'));
+    const appSettings = await lastValueFrom(this.http.get<AppSettings>('assets/appsettings.json'));
 
     this.appSettings = appSettings;
   }
