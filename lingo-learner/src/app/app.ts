@@ -21,6 +21,7 @@ interface ViewItem {
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, FormsModule],
+  providers: [LessonService],
   template: `
     <div class="min-h-screen bg-slate-100 font-sans text-slate-900 selection:bg-indigo-200 selection:text-indigo-900">
 
@@ -77,14 +78,16 @@ interface ViewItem {
               </div>
             </div>
 
-            <!-- Row 2: Learning Language & Lesson Selectors (Both Dropdowns) -->
+            <!-- Row 2: Learning Language & Lesson Selectors -->
             <div class="flex flex-wrap gap-4 bg-slate-50 p-3 rounded-lg border border-slate-200 items-center">
 
               <!-- 1. Learning Language Selector -->
               <div class="flex items-center gap-2 flex-grow sm:flex-grow-0">
                 <label for="lang-select"
-                  [ngClass]="uiLangCode() === 'CN' ? 'text-sm font-medium' : 'text-xs font-bold uppercase tracking-wider'"
-                  class="text-slate-500 whitespace-nowrap">{{ t().selectLanguage }}:</label>
+                       [ngClass]="uiLangCode() === 'CN' ? 'text-sm font-medium' : 'text-xs font-bold uppercase tracking-wider'"
+                       class="text-slate-500 whitespace-nowrap">
+                  {{ t().selectLanguage }}:
+                </label>
                 <div class="relative w-full sm:w-48">
                   <select
                     id="lang-select"
@@ -93,7 +96,7 @@ interface ViewItem {
                     class="appearance-none w-full bg-white border border-slate-300 text-slate-800 py-2 pl-3 pr-10 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 font-bold text-sm cursor-pointer hover:border-indigo-300 transition-colors"
                   >
                     @for (lang of availableLanguages(); track lang) {
-                      <option [value]="lang">{{ lang }}</option>
+                      <option [value]="lang">{{ t().languageNames[lang] || lang }}</option>
                     }
                   </select>
                   <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
@@ -106,8 +109,10 @@ interface ViewItem {
               @if (lessonsForLanguage().length > 0) {
                 <div class="flex items-center gap-2 flex-grow sm:flex-grow-0">
                   <label for="lesson-select"
-                    [ngClass]="uiLangCode() === 'CN' ? 'text-sm font-medium' : 'text-xs font-bold uppercase tracking-wider'"
-                    class="text-slate-500 whitespace-nowrap">{{ t().selectLesson }}:</label>
+                         [ngClass]="uiLangCode() === 'CN' ? 'text-sm font-medium' : 'text-xs font-bold uppercase tracking-wider'"
+                         class="text-slate-500 whitespace-nowrap">
+                    {{ t().selectLesson }}:
+                  </label>
                   <div class="relative w-full sm:w-64">
                     <select
                       id="lesson-select"
@@ -143,7 +148,10 @@ interface ViewItem {
 
                 @if (isChecked()) {
                   <div class="flex flex-col items-end bg-slate-50 px-4 py-2 rounded-lg border border-slate-200">
-                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">{{ t().result }}</span>
+                    <span [ngClass]="uiLangCode() === 'CN' ? 'text-sm font-medium' : 'text-xs font-bold uppercase tracking-wider'"
+                          class="text-slate-500">
+                      {{ t().result }}
+                    </span>
                     <div class="text-3xl font-black" [ngClass]="getScoreColor()">
                       {{ score() }}%
                     </div>
@@ -159,11 +167,10 @@ interface ViewItem {
 
             <!-- Exercise Area -->
             <div class="bg-white rounded-xl shadow-lg border border-slate-300 p-8 md:p-12 leading-loose text-lg">
-              <div class="flex flex-wrap items-baseline gap-y-5">
+              <div class="block">
 
-                <!-- Template für Input-Felder -->
                 <ng-template #inputField let-segment="segment" let-i="index">
-                    <div class="relative inline-flex group align-bottom transition-all duration-200"
+                    <div class="relative inline-flex group align-baseline transition-all duration-200"
                       [ngClass]="{
                         'mx-2': !segment.isEnding,
                         'ml-0 mr-1': segment.isEnding
@@ -175,6 +182,7 @@ interface ViewItem {
                       (ngModelChange)="updateProgress()"
                       [disabled]="isChecked()"
                       [placeholder]="segment.placeholder || ''"
+                      [style.width.ch]="getInputWidth(segment)"
                       class="
                         transition-all duration-150 ease-out
                         border-2 outline-none font-bold text-slate-900 shadow-sm
@@ -183,8 +191,8 @@ interface ViewItem {
                         disabled:bg-slate-50 disabled:cursor-default
                       "
                       [ngClass]="{
-                        'rounded-r-md rounded-l-none ml-[1px] px-1 w-16 text-center': segment.isEnding,
-                        'rounded-md px-3 min-w-[120px] w-auto text-center': !segment.isEnding,
+                        'rounded-r-md rounded-l-none ml-[1px] px-1 text-center': segment.isEnding,
+                        'rounded-md px-3 text-center': !segment.isEnding,
                         'bg-white border-slate-400 hover:border-slate-500': !isChecked(),
                         'border-green-600 bg-green-50 text-green-800': isChecked() && isCorrect(i),
                         'border-red-500 bg-red-50 text-red-800 line-through decoration-red-500 decoration-2': isChecked() && !isCorrect(i)
@@ -279,7 +287,6 @@ interface ViewItem {
   `]
 })
 export class App implements OnInit {
-
   private lessonService = inject(LessonService);
 
   // Translation Config
@@ -295,7 +302,7 @@ export class App implements OnInit {
   hasError = signal<boolean>(false);
   allLessons = signal<Lesson[]>([]);
 
-  selectedLanguage = signal<string>('Deutsch'); // Learning Language
+  selectedLanguage = signal<string>('EN'); // Default
   currentLesson = signal<Lesson | null>(null);
   userAnswers: { [key: number]: string } = {};
   isChecked = signal(false);
@@ -402,7 +409,7 @@ export class App implements OnInit {
       next: (data) => {
         this.allLessons.set(data);
         this.isLoading.set(false);
-        this.selectLanguage('Deutsch');
+        this.selectLanguage('EN');
       },
       error: (err) => {
         console.error('Fehler beim Laden der Lektionen', err);
@@ -475,5 +482,16 @@ export class App implements OnInit {
     if (s === 100) return 'text-green-700';
     if (s >= 50) return 'text-amber-600';
     return 'text-red-600';
+  }
+
+  getInputWidth(segment: Segment): number {
+    const answerLen = segment.answer ? segment.answer.length : 0;
+    const isEnding = segment.isEnding || false;
+
+    if (isEnding) {
+      return answerLen + 2;
+    } else {
+      return answerLen + 4;
+    }
   }
 }
