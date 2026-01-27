@@ -84,7 +84,7 @@ interface ViewItem {
               <!-- 1. Learning Language Selector -->
               <div class="flex items-center gap-2 flex-grow sm:flex-grow-0">
                 <label for="lang-select"
-                       [ngClass]="uiLangCode() === 'CN' ? 'text-sm font-medium' : 'text-xs font-bold uppercase tracking-wider'"
+                       [ngClass]="uiLangCode() === 'ZH' ? 'text-sm font-medium' : 'text-xs font-bold uppercase tracking-wider'"
                        class="text-slate-500 whitespace-nowrap">
                   {{ t().selectLanguage }}:
                 </label>
@@ -109,7 +109,7 @@ interface ViewItem {
               @if (lessonsForLanguage().length > 0) {
                 <div class="flex items-center gap-2 flex-grow sm:flex-grow-0">
                   <label for="lesson-select"
-                         [ngClass]="uiLangCode() === 'CN' ? 'text-sm font-medium' : 'text-xs font-bold uppercase tracking-wider'"
+                         [ngClass]="uiLangCode() === 'ZH' ? 'text-sm font-medium' : 'text-xs font-bold uppercase tracking-wider'"
                          class="text-slate-500 whitespace-nowrap">
                     {{ t().selectLesson }}:
                   </label>
@@ -148,7 +148,7 @@ interface ViewItem {
 
                 @if (isChecked()) {
                   <div class="flex flex-col items-end bg-slate-50 px-4 py-2 rounded-lg border border-slate-200">
-                    <span [ngClass]="uiLangCode() === 'CN' ? 'text-sm font-medium' : 'text-xs font-bold uppercase tracking-wider'"
+                    <span [ngClass]="uiLangCode() === 'ZH' ? 'text-sm font-medium' : 'text-xs font-bold uppercase tracking-wider'"
                           class="text-slate-500">
                       {{ t().result }}
                     </span>
@@ -290,7 +290,7 @@ export class App implements OnInit {
   private lessonService = inject(LessonService);
 
   // Translation Config
-  uiLangCodes = ['DE', 'EN', 'ES', 'FR', 'CN'];
+  uiLangCodes = ['DE', 'EN', 'ES', 'FR', 'ZH'];
   uiData = UI_DATA;
   uiLangCode = signal('EN');
 
@@ -399,6 +399,14 @@ export class App implements OnInit {
   });
 
   ngOnInit() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const langParam = urlParams.get('lang');
+    if (langParam) {
+      const upperLang = langParam.toUpperCase();
+      if (this.uiLangCodes.includes(upperLang)) {
+        this.setUiLang(upperLang);
+      }
+    }
     this.loadData();
   }
 
