@@ -1,4 +1,4 @@
-export type SegmentType = 'text' | 'gap';
+export type SegmentType = 'text' | 'gap' | 'br';
 
 export interface Segment {
   type: SegmentType;
