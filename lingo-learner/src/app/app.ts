@@ -223,57 +223,68 @@ interface ViewItem {
                    </p>
                 </div>
 
-<div class="block">
-        @for (item of viewSegments(); track $index) {
+                <div class="block">
+                  @for (item of viewSegments(); track $index) {
 
-          @if (item.type === 'text') {
-            <span class="whitespace-pre-wrap text-slate-800 font-medium">{{ item.segment?.content }}</span>
-          }
+                    @if (item.type === 'text') {
+                      <span class="whitespace-pre-wrap text-slate-800 font-medium">{{ item.segment?.content }}</span>
+                    }
 
-          @else if (item.type === 'gap') {
-            <div class="relative inline-flex align-baseline mx-2">
-              <input type="text" disabled
-                [value]="item.segment?.answer || ''"
-                [placeholder]="item.segment?.placeholder || ''"
-                [style.width.ch]="getInputWidth(item.segment!)"
-                class="transition-all border-2 outline-none font-bold text-slate-900 shadow-sm text-center border-slate-400 bg-slate-50 opacity-60 rounded-md px-3">
-            </div>
-          }
+                    @else if (item.type === 'gap') {
+                      <div class="relative inline-flex align-baseline mx-2">
+                        <input type="text" disabled
+                          [value]="item.segment?.answer || ''"
+                          [placeholder]="item.segment?.placeholder || ''"
+                          [style.width.ch]="getInputWidth(item.segment!)"
+                          class="transition-all border-2 outline-none font-bold text-slate-900 shadow-sm text-center border-slate-400 bg-slate-50 opacity-60 rounded-md px-3">
+                      </div>
+                    }
 
-          @else if (item.type === 'compound') {
-            <span class="whitespace-nowrap inline-flex items-baseline">
-              <span class="whitespace-pre-wrap text-slate-800 font-medium">{{ item.textSegment?.content }}</span>
+                    @else if (item.type === 'compound') {
+                      <span class="whitespace-nowrap inline-flex items-baseline">
+                        <span class="whitespace-pre-wrap text-slate-800 font-medium">{{ item.textSegment?.content }}</span>
 
-              <div class="relative inline-flex align-baseline ml-0 mr-1">
-                <input type="text" disabled
-                  [value]="item.gapSegment?.answer || ''"
-                  [placeholder]="item.gapSegment?.placeholder || '...'"
-                  [style.width.ch]="getInputWidth(item.gapSegment!)"
-                  class="transition-all border-2 outline-none font-bold text-slate-900 shadow-sm text-center border-slate-400 bg-slate-50 opacity-60"
-                  [ngClass]="{
-                    'rounded-md px-3': !item.gapSegment?.isEnding,
-                    'rounded-r-md rounded-l-none ml-[1px] px-1 border-l-0': item.gapSegment?.isEnding
-                  }">
+                        <div class="relative inline-flex align-baseline ml-0 mr-1">
+                          <input type="text" disabled
+                            [value]="item.gapSegment?.answer || ''"
+                            [placeholder]="item.gapSegment?.placeholder || '...'"
+                            [style.width.ch]="getInputWidth(item.gapSegment!)"
+                            class="transition-all border-2 outline-none font-bold text-slate-900 shadow-sm text-center border-slate-400 bg-slate-50 opacity-60"
+                            [ngClass]="{
+                              'rounded-md px-3': !item.gapSegment?.isEnding,
+                              'rounded-r-md rounded-l-none ml-[1px] px-1 border-l-0': item.gapSegment?.isEnding
+                            }">
+                        </div>
+                      </span>
+                    }
+
+                    @else if (item.type === 'br') {
+                      <div class="h-10 w-full block"></div>
+                    }
+                  }
+                </div>
               </div>
-            </span>
-          }
-
-          @else if (item.type === 'br') {
-            <div class="h-10 w-full block"></div>
-          }
-        }
-      </div>
-              </div>
             </div>
 
-            <button (click)="copyToClipboard()"
-                    class="mt-8 w-full py-5 bg-indigo-700 text-white rounded-2xl font-black text-lg shadow-2xl hover:bg-indigo-800 active:scale-[0.97] transition-all flex items-center justify-center gap-4 group">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:rotate-12 transition-transform">
-                <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
-                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-              </svg>
-              {{ t().copyJson }}
-            </button>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+              <button (click)="copyToClipboard()"
+                      class="w-full py-5 bg-slate-800 text-white rounded-2xl font-black text-lg shadow-xl hover:bg-slate-900 active:scale-[0.97] transition-all flex items-center justify-center gap-3 group">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:rotate-12 transition-transform">
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+                </svg>
+                <span class="truncate">{{ t().copyJson }}</span>
+              </button>
+
+              <button (click)="saveLessonAsFile()"
+                      class="w-full py-5 bg-indigo-700 text-white rounded-2xl font-black text-lg shadow-2xl hover:bg-indigo-800 active:scale-[0.97] transition-all flex items-center justify-center gap-3 group">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-y-1 transition-transform">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" x2="12" y1="3" y2="15"/>
+                </svg>
+                <span class="truncate">{{ t().saveJson }}</span>
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -686,5 +697,21 @@ export class App implements OnInit {
     const jsonString = JSON.stringify(lessonData, null, 2);
 
     navigator.clipboard.writeText(jsonString);
+  }
+
+  saveLessonAsFile() {
+    const lessonData = this.newLesson();
+    const fileName = `${lessonData.title || 'lesson'}.json`;
+
+    const blob = new Blob([JSON.stringify(lessonData, null, 2)], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+
+    link.href = url;
+    link.download = fileName;
+    link.click();
+
+    window.URL.revokeObjectURL(url);
   }
 }

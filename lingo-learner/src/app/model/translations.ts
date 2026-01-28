@@ -31,6 +31,7 @@ export interface UiTranslation {
   glueLabel: string;
   gapAnswerPlaceholder: string;
   gapHintPlaceholder: string;
+  saveJson: string;
 }
 
 export const UI_DATA: Record<string, UiTranslation> = {
@@ -45,7 +46,8 @@ export const UI_DATA: Record<string, UiTranslation> = {
     segmentsLabel: 'Inhalts-Elemente', addText: '+ Text', addGap: '+ Lücke', addBr: '+ Absatz',
     previewLabel: 'Live-Vorschau', copyJson: 'JSON Kopieren', clearAll: 'Alles Löschen',
     confirmClear: 'Möchtest du wirklich alle Eingaben löschen?', glueLabel: 'Glue',
-    gapAnswerPlaceholder: 'Antwort...', gapHintPlaceholder: 'Hinweis (optional)'
+    gapAnswerPlaceholder: 'Antwort...', gapHintPlaceholder: 'Hinweis (optional)',
+    saveJson: 'JSON Speichern'
   },
   'EN': {
     name: 'EN',
@@ -58,7 +60,8 @@ export const UI_DATA: Record<string, UiTranslation> = {
     segmentsLabel: 'Content Elements', addText: '+ Text', addGap: '+ Gap', addBr: '+ Paragraph',
     previewLabel: 'Live Preview', copyJson: 'Copy JSON', clearAll: 'Clear All',
     confirmClear: 'Do you really want to clear all inputs?', glueLabel: 'Glue',
-    gapAnswerPlaceholder: 'Answer...', gapHintPlaceholder: 'Hint (optional)'
+    gapAnswerPlaceholder: 'Answer...', gapHintPlaceholder: 'Hint (optional)',
+    saveJson: 'Save JSON'
   },
   'ES': {
     name: 'ES',
@@ -71,7 +74,8 @@ export const UI_DATA: Record<string, UiTranslation> = {
     segmentsLabel: 'Elementos de Contenido', addText: '+ Texto', addGap: '+ Hueco', addBr: '+ Párrafo',
     previewLabel: 'Vista Previa', copyJson: 'Copiar JSON', clearAll: 'Borrar Todo',
     confirmClear: '¿Realmente quieres borrar todas las entradas?', glueLabel: 'Pegar',
-    gapAnswerPlaceholder: 'Respuesta...', gapHintPlaceholder: 'Sugerencia (opcional)'
+    gapAnswerPlaceholder: 'Respuesta...', gapHintPlaceholder: 'Sugerencia (opcional)',
+    saveJson: 'Guardar JSON'
   },
   'FR': {
     name: 'FR',
@@ -85,6 +89,7 @@ export const UI_DATA: Record<string, UiTranslation> = {
     previewLabel: 'Aperçu Direct', copyJson: 'Copier le JSON', clearAll: 'Tout Effacer',
     confirmClear: 'Voulez-vous vraiment effacer toutes les entrées ?', glueLabel: 'Coller',
     gapAnswerPlaceholder: 'Réponse...', gapHintPlaceholder: 'Indice (optionnel)',
+    saveJson: 'Enregistrer le JSON'
   },
   'ZH': {
     name: 'ZH',
@@ -97,6 +102,7 @@ export const UI_DATA: Record<string, UiTranslation> = {
     segmentsLabel: '内容元素', addText: '+ 文本', addGap: '+ 填空', addBr: '+ 段落',
     previewLabel: '实时预览', copyJson: '复制 JSON', clearAll: '全部清除',
     confirmClear: '你确定要清除所有输入吗？', glueLabel: '粘贴',
-    gapAnswerPlaceholder: '答案...', gapHintPlaceholder: '提示 (可选)'
+    gapAnswerPlaceholder: '答案...', gapHintPlaceholder: '提示 (可选)',
+    saveJson: '保存 JSON'
   }
 };
