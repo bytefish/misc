@@ -31,6 +31,7 @@ export interface UiTranslation {
   glueLabel: string;
   gapAnswerPlaceholder: string;
   gapHintPlaceholder: string;
+  loadJson: string;
   saveJson: string;
 }
 
@@ -47,7 +48,7 @@ export const UI_DATA: Record<string, UiTranslation> = {
     previewLabel: 'Live-Vorschau', copyJson: 'JSON Kopieren', clearAll: 'Alles Löschen',
     confirmClear: 'Möchtest du wirklich alle Eingaben löschen?', glueLabel: 'Glue',
     gapAnswerPlaceholder: 'Antwort...', gapHintPlaceholder: 'Hinweis (optional)',
-    saveJson: 'JSON Speichern'
+    loadJson: 'Lektion laden', saveJson: 'JSON Speichern'
   },
   'EN': {
     name: 'EN',
@@ -61,7 +62,7 @@ export const UI_DATA: Record<string, UiTranslation> = {
     previewLabel: 'Live Preview', copyJson: 'Copy JSON', clearAll: 'Clear All',
     confirmClear: 'Do you really want to clear all inputs?', glueLabel: 'Glue',
     gapAnswerPlaceholder: 'Answer...', gapHintPlaceholder: 'Hint (optional)',
-    saveJson: 'Save JSON'
+    loadJson: 'Load Lesson', saveJson: 'Save JSON'
   },
   'ES': {
     name: 'ES',
@@ -75,7 +76,7 @@ export const UI_DATA: Record<string, UiTranslation> = {
     previewLabel: 'Vista Previa', copyJson: 'Copiar JSON', clearAll: 'Borrar Todo',
     confirmClear: '¿Realmente quieres borrar todas las entradas?', glueLabel: 'Pegar',
     gapAnswerPlaceholder: 'Respuesta...', gapHintPlaceholder: 'Sugerencia (opcional)',
-    saveJson: 'Guardar JSON'
+    loadJson: 'Cargar lección', saveJson: 'Guardar JSON'
   },
   'FR': {
     name: 'FR',
@@ -89,7 +90,7 @@ export const UI_DATA: Record<string, UiTranslation> = {
     previewLabel: 'Aperçu Direct', copyJson: 'Copier le JSON', clearAll: 'Tout Effacer',
     confirmClear: 'Voulez-vous vraiment effacer toutes les entrées ?', glueLabel: 'Coller',
     gapAnswerPlaceholder: 'Réponse...', gapHintPlaceholder: 'Indice (optionnel)',
-    saveJson: 'Enregistrer le JSON'
+    loadJson: 'Charger la leçon', saveJson: 'Enregistrer le JSON'
   },
   'ZH': {
     name: 'ZH',
@@ -103,6 +104,6 @@ export const UI_DATA: Record<string, UiTranslation> = {
     previewLabel: '实时预览', copyJson: '复制 JSON', clearAll: '全部清除',
     confirmClear: '你确定要清除所有输入吗？', glueLabel: '粘贴',
     gapAnswerPlaceholder: '答案...', gapHintPlaceholder: '提示 (可选)',
-    saveJson: '保存 JSON'
+    loadJson: '加载课程', saveJson: '保存 JSON'
   }
 };

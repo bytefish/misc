@@ -99,13 +99,22 @@ interface ViewItem {
                 </svg>
                 {{ t().designerTitle }}
               </h2>
+              <div class="flex gap-2">
+                <input type="file" #fileInput (change)="loadLessonFromFile($event)" accept=".json" class="hidden">
+                <button (click)="fileInput.click()" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 transition-colors flex items-center gap-2 px-3 py-1.5 hover:bg-indigo-50 rounded-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/>
+                    </svg>
+                    {{ t().loadJson }}
+                  </button>
 
-              <button (click)="clearEditor()" class="text-xs font-bold text-red-500 hover:text-red-700 transition-colors flex items-center gap-2 px-3 py-1.5 hover:bg-red-50 rounded-xl">
+                <button (click)="clearEditor()" class="text-xs font-bold text-red-500 hover:text-red-700 transition-colors flex items-center gap-2 px-3 py-1.5 hover:bg-red-50 rounded-xl">
                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                    <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
                  </svg>
                  {{ t().clearAll }}
               </button>
+              </div>
             </div>
 
             <div class="space-y-6 mb-10">
@@ -697,6 +706,32 @@ export class App implements OnInit {
     const jsonString = JSON.stringify(lessonData, null, 2);
 
     navigator.clipboard.writeText(jsonString);
+  }
+
+  loadLessonFromFile(event: Event) {
+    const element = event.currentTarget as HTMLInputElement;
+    let fileList: FileList | null = element.files;
+
+    if (fileList && fileList.length > 0) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const content = e.target?.result as string;
+          const loadedLesson = JSON.parse(content);
+
+          if (loadedLesson.title !== undefined && Array.isArray(loadedLesson.segments)) {
+            this.newLesson.set(loadedLesson);
+            this.refreshPreview();
+          } else {
+            alert('Error reading the file: Not a valid lesson.');
+          }
+        } catch (err) {
+          alert('Error reading the file: Invalid Format.');
+        }
+      };
+      reader.readAsText(fileList[0]);
+      element.value = '';
+    }
   }
 
   saveLessonAsFile() {
