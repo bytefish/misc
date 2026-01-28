@@ -153,53 +153,81 @@ interface ViewItem {
               <label class="text-xs font-black text-slate-400 uppercase tracking-widest block mb-2">{{ t().segmentsLabel }}</label>
 
               @for (seg of newLesson().segments; track $index) {
-                <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200 group hover:border-indigo-200 transition-all">
-                  <div class="mt-1.5 bg-white w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black text-slate-400 shadow-sm border border-slate-100 flex-shrink-0">
-                    {{ $index + 1 }}
-                  </div>
+                <div class="flex flex-col gap-2 p-3 bg-slate-50 rounded-xl border border-slate-200 hover:border-indigo-200 transition-all shadow-sm">
 
-                  <div class="flex-grow">
-                    @if (seg.type === 'text') {
-                      <textarea [(ngModel)]="seg.content"
-                                (ngModelChange)="refreshPreview()"
-                                rows="1"
-                                class="w-full text-sm p-2 rounded-lg border bg-white shadow-sm outline-none focus:ring-2 focus:ring-indigo-500 resize-y min-h-[38px]"
-                                [placeholder]="t().addText + '...'"></textarea>
-                    }
+                  <div class="flex items-center gap-4">
+                    <div class="flex flex-col gap-1 flex-shrink-0">
+                      <button (click)="moveSegment($index, 'up')" [disabled]="$first"
+                              class="p-1 text-slate-400 hover:text-indigo-600 disabled:opacity-10 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+                      </button>
+                      <button (click)="moveSegment($index, 'down')" [disabled]="$last"
+                              class="p-1 text-slate-400 hover:text-indigo-600 disabled:opacity-10 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                      </button>
+                    </div>
 
-                    @else if (seg.type === 'gap') {
-                      <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
-                        <input [(ngModel)]="seg.answer"
-                              (ngModelChange)="refreshPreview()"
-                              class="text-sm p-2 rounded-lg border border-indigo-100 font-bold bg-white shadow-sm outline-none focus:ring-2 focus:ring-indigo-500"
-                              [placeholder]="t().gapAnswerPlaceholder">
-
-                        <div class="flex gap-2">
-                          <input [(ngModel)]="seg.placeholder"
-                                (ngModelChange)="refreshPreview()"
-                                class="flex-grow text-sm p-2 rounded-lg border bg-white shadow-sm outline-none focus:ring-2 focus:ring-indigo-500"
-                                [placeholder]="t().gapHintPlaceholder">
-
-                          <label class="flex items-center px-3 bg-white rounded-lg border text-[9px] font-black text-slate-500 cursor-pointer hover:bg-indigo-50 transition-colors uppercase">
-                            <input type="checkbox" [(ngModel)]="seg.isEnding" (ngModelChange)="refreshPreview()" class="mr-2 accent-indigo-600">
-                            {{ t().glueLabel }}
-                          </label>
+                    <div class="flex-grow min-w-0">
+                      @if (seg.type === 'text') {
+                        <textarea [(ngModel)]="seg.content" (ngModelChange)="refreshPreview()" rows="1"
+                                  class="w-full text-sm p-2 rounded-lg border bg-white shadow-sm outline-none focus:ring-2 focus:ring-indigo-500 resize-y min-h-[38px]"
+                                  [placeholder]="t().addText + '...'"></textarea>
+                      }
+                      @else if (seg.type === 'gap') {
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                          <input [(ngModel)]="seg.answer" (ngModelChange)="refreshPreview()"
+                                class="text-sm p-2 rounded-lg border border-indigo-100 font-bold bg-white shadow-sm outline-none focus:ring-2 focus:ring-indigo-500"
+                                [placeholder]="t().gapAnswerPlaceholder">
+                          <div class="flex gap-2 min-w-0">
+                            <input [(ngModel)]="seg.placeholder" (ngModelChange)="refreshPreview()"
+                                  class="flex-grow text-sm p-2 rounded-lg border bg-white shadow-sm outline-none focus:ring-2 focus:ring-indigo-500 min-w-0"
+                                  [placeholder]="t().gapHintPlaceholder">
+                            <label class="flex items-center px-3 bg-white rounded-lg border text-[9px] font-black text-slate-500 cursor-pointer hover:bg-indigo-50 transition-colors uppercase whitespace-nowrap flex-shrink-0">
+                              <input type="checkbox" [(ngModel)]="seg.isEnding" (ngModelChange)="refreshPreview()" class="mr-2 accent-indigo-600">
+                              {{ t().glueLabel }}
+                            </label>
+                          </div>
                         </div>
-                      </div>
-                    }
+                      }
+                      @else if (seg.type === 'br') {
+                        <div class="h-9 flex items-center justify-center border border-dashed border-amber-200 bg-amber-50/20 rounded-lg">
+                          <span class="text-[9px] font-black text-amber-500 uppercase tracking-widest italic">{{ t().addBr }}</span>
+                        </div>
+                      }
+                    </div>
 
-                    @else if (seg.type === 'br') {
-                      <div class="h-9 flex items-center justify-center border border-dashed border-amber-200 bg-amber-50/20 rounded-lg">
-                        <span class="text-[9px] font-black text-amber-500 uppercase tracking-widest italic">{{ t().addBr }}</span>
-                      </div>
-                    }
+                    <div class="flex gap-1 flex-shrink-0">
+                      <button (click)="toggleExpand($index)"
+                              [class.text-indigo-600]="expandedIndex() === $index"
+                              [class.bg-indigo-50]="expandedIndex() === $index"
+                              class="p-2 text-slate-300 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                            [class.rotate-180]="expandedIndex() === $index" class="transition-transform duration-200">
+                          <path d="m6 9 6 6 6-6"/>
+                        </svg>
+                      </button>
+
+                      <button (click)="removeSegment($index)" class="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                        </svg>
+                      </button>
+                    </div>
                   </div>
 
-                  <button (click)="removeSegment($index)" class="mt-1 p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all flex-shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-                    </svg>
-                  </button>
+                  @if (expandedIndex() === $index) {
+                    <div class="mt-2 pt-3 border-t border-slate-100 grid grid-cols-3 gap-3 animate-in fade-in slide-in-from-top-2">
+                      <button (click)="insertSegmentAt($index, 'text')" class="py-2.5 bg-white border border-dashed border-slate-300 rounded-lg font-black text-[10px] text-slate-500 hover:border-indigo-400 hover:text-indigo-600 transition-all uppercase">
+                        {{ t().addText }}
+                      </button>
+                      <button (click)="insertSegmentAt($index, 'gap')" class="py-2.5 bg-indigo-50/50 border border-dashed border-indigo-200 rounded-lg font-black text-[10px] text-indigo-600 hover:bg-indigo-100 transition-all uppercase">
+                        {{ t().addGap }}
+                      </button>
+                      <button (click)="insertSegmentAt($index, 'br')" class="py-2.5 bg-amber-50/50 border border-dashed border-amber-200 rounded-lg font-black text-[10px] text-amber-600 hover:bg-amber-100 transition-all uppercase">
+                        {{ t().addBr }}
+                      </button>
+                    </div>
+                  }
                 </div>
               }
             </div>
@@ -437,6 +465,7 @@ export class App implements OnInit {
   isLoading = signal<boolean>(true);
   hasError = signal<boolean>(false);
   allLessons = signal<Lesson[]>([]);
+  expandedIndex = signal<number | null>(null);
 
   selectedLanguage = signal<string>('EN'); // Default
   currentLesson = signal<Lesson | null>(null);
@@ -748,5 +777,44 @@ export class App implements OnInit {
     link.click();
 
     window.URL.revokeObjectURL(url);
+  }
+
+  toggleExpand(index: number) {
+    this.expandedIndex.update(current => current === index ? null : index);
+  }
+
+  moveSegment(index: number, direction: 'up' | 'down') {
+    this.newLesson.update(lesson => {
+      const segments = [...lesson.segments];
+      const targetIndex = direction === 'up' ? index - 1 : index + 1;
+
+      if (targetIndex >= 0 && targetIndex < segments.length) {
+        [segments[index], segments[targetIndex]] = [segments[targetIndex], segments[index]];
+      }
+
+      return { ...lesson, segments };
+    });
+    this.refreshPreview();
+  }
+
+  insertSegmentAt(index: number, type: SegmentType) {
+    this.newLesson.update(lesson => {
+      const newSegment: Segment = { type };
+      if (type === 'text') newSegment.content = '';
+      if (type === 'gap') {
+        newSegment.answer = '';
+        newSegment.placeholder = '';
+        newSegment.isEnding = false;
+      }
+
+      const updatedSegments = [...lesson.segments];
+
+      updatedSegments.splice(index + 1, 0, newSegment);
+
+      return { ...lesson, segments: updatedSegments };
+    });
+
+    this.expandedIndex.set(null);
+    this.refreshPreview();
   }
 }
