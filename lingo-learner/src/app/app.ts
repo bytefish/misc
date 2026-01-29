@@ -303,24 +303,40 @@ interface ViewItem {
               </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mt-8">
+
               <button (click)="copyToClipboard()"
-                      class="w-full py-5 bg-slate-800 text-white rounded-2xl font-black text-lg shadow-xl hover:bg-slate-900 active:scale-[0.97] transition-all flex items-center justify-center gap-3 group">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:rotate-12 transition-transform">
+                      class="w-full min-h-[64px] py-4 px-4 bg-slate-800 text-white rounded-2xl font-bold text-sm shadow-xl hover:bg-slate-900 active:scale-[0.97] transition-all flex items-center justify-center gap-3 group border-b-4 border-slate-950">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0 group-hover:rotate-12 transition-transform">
                   <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
                 </svg>
-                <span class="truncate">{{ t().copyJson }}</span>
+                <span class="leading-tight">{{ t().copyJson }}</span>
+              </button>
+
+              <button (click)="submitViaGitHubIssue()"
+                      class="w-full min-h-[64px] py-4 px-4 bg-emerald-600 text-white rounded-2xl font-bold text-sm shadow-xl hover:bg-emerald-700 active:scale-[0.97] transition-all flex items-center justify-center gap-3 group border-b-4 border-emerald-800">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                </svg>
+                <span class="leading-tight">{{ t().submitGitHub }}</span>
+              </button>
+
+              <button (click)="sendViaEmail()"
+                      class="w-full min-h-[64px] py-4 px-4 bg-sky-600 text-white rounded-2xl font-bold text-sm shadow-xl hover:bg-sky-700 active:scale-[0.97] transition-all flex items-center justify-center gap-3 group border-b-4 border-sky-800">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0 group-hover:-rotate-12 transition-transform">
+                  <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                </svg>
+                <span class="leading-tight">{{ t().submitEmail }}</span>
               </button>
 
               <button (click)="saveLessonAsFile()"
-                      class="w-full py-5 bg-indigo-700 text-white rounded-2xl font-black text-lg shadow-2xl hover:bg-indigo-800 active:scale-[0.97] transition-all flex items-center justify-center gap-3 group">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-y-1 transition-transform">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                  <polyline points="7 10 12 15 17 10"/>
-                  <line x1="12" x2="12" y1="3" y2="15"/>
+                      class="w-full min-h-[64px] py-4 px-4 bg-indigo-700 text-white rounded-2xl font-bold text-sm shadow-2xl hover:bg-indigo-800 active:scale-[0.97] transition-all flex items-center justify-center gap-3 group border-b-4 border-indigo-900">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0 group-hover:translate-y-1 transition-transform">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="3" y2="15"/>
                 </svg>
-                <span class="truncate">{{ t().saveJson }}</span>
+                <span class="leading-tight">{{ t().saveJson }}</span>
               </button>
+
             </div>
           </div>
         </div>
@@ -816,5 +832,43 @@ export class App implements OnInit {
 
     this.expandedIndex.set(null);
     this.refreshPreview();
+  }
+
+  submitViaGitHubIssue() {
+    const trans = this.t(); // Zugriff auf das aktuelle Translation-Signal
+
+    if (window.confirm(trans.submitConfirm)) {
+      // 1. Download auslösen
+      this.saveLessonAsFile();
+
+      // 2. Daten vorbereiten
+      const lesson = this.newLesson();
+      const repoPath = 'bytefish/bytefish.de';
+
+      // 3. Titel und Body lokalisieren
+      const titleText = `${trans.issueTitlePrefix}: ${lesson.title || trans.untitled}`;
+      const bodyText = trans.issueBodyInstructions;
+
+      const title = encodeURIComponent(titleText);
+      const body = encodeURIComponent(bodyText);
+
+      // 4. GitHub Issue Seite öffnen
+      const githubUrl = `https://github.com/${repoPath}/issues/new?title=${title}&body=${body}&labels=lingo-lesson`;
+      window.open(githubUrl, '_blank');
+    }
+  }
+
+  sendViaEmail() {
+    const trans = this.t();
+    const recipient = "lingo-lesson@bytefish.de";
+
+    if (window.confirm(trans.emailConfirm)) {
+      this.saveLessonAsFile();
+
+      const subject = encodeURIComponent(trans.emailSubject);
+      const body = encodeURIComponent(trans.emailBody);
+
+      window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+    }
   }
 }
