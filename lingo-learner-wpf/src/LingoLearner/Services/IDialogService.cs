@@ -18,9 +18,4 @@ public interface IDialogService
     /// <param name="messageBoxImage">Image to show in the message box</param>
     /// <returns>The result of the message box</returns>
     MessageBoxResult ShowMessageBox(string messageBoxText, string messageBoxCaption, MessageBoxButton messageBoxButton, MessageBoxImage messageBoxImage);
-
-    /// <summary>
-    /// Shows the About Window as a modal dialog.
-    /// </summary>
-    void ShowAboutWindow();
 }

@@ -1,12 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using LingoLearner.Misc;
+using LingoLearner.Opts;
 using LingoLearner.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog;
 using NLog.Extensions.Logging;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 
@@ -107,6 +107,9 @@ namespace LingoLearner
         /// <returns>A service collection with all services registered</returns>
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
+            // Bind the JSON section to the class
+            services.Configure<AppOptions>(configuration.GetSection(nameof(AppOptions)));
+
             // Logging
             services.AddLogging(loggingBuilder =>
             {

@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, NgZone, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Segment, Lesson, SegmentType } from './model/lingo-learner';
@@ -24,7 +24,6 @@ interface ViewItem {
   providers: [LessonService],
   template: `
  <div class="min-h-screen bg-slate-100 font-sans text-slate-900 selection:bg-indigo-200 selection:text-indigo-900">
-
   @if (isLoading()) {
     <div class="flex items-center justify-center min-h-screen">
       <div class="flex flex-col items-center gap-4">
@@ -345,7 +344,10 @@ interface ViewItem {
               @if (isDesktopMode()) {
                 <button (click)="saveToDesktopFolder()"
                 class="w-full min-h-[64px] py-4 px-4 bg-indigo-700 text-white rounded-2xl font-bold text-sm shadow-2xl hover:bg-indigo-800 active:scale-[0.97] transition-all flex items-center justify-center gap-3 group border-b-4 border-indigo-900">
-                  {{ t().saveLocal }}
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0 group-hover:translate-y-1 transition-transform">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="3" y2="15"/>
+                </svg>
+                <span class="leading-tight">{{ t().saveLocal }}</span>
                 </button>
               }
             </div>
@@ -477,7 +479,10 @@ interface ViewItem {
   `]
 })
 export class App implements OnInit {
+
+  //Services
   private lessonService = inject(LessonService);
+  private zone = inject(NgZone);
 
   // Translation Config
   uiLangCodes = ['DE', 'EN', 'ES', 'FR', 'ZH'];
@@ -573,10 +578,19 @@ export class App implements OnInit {
       (window as any).chrome.webview.addEventListener('message', (event: any) => {
         const message = event.data;
         if (message.type === 'LOAD_LESSONS') {
-          this.allLessons.set(message.payload); // Set the lessons from local folder
-          this.isLoading.set(false);
+          this.zone.run(() => {
+            console.log("Setting Payload: ", message.payload);
+
+            this.allLessons.set(message.payload); // Set the lessons from local folder
+            this.isLoading.set(false);
+            this.selectLanguage('EN');
+          });
         }
       });
+
+      // Let's tell the Backend we are ready for loading
+      (window as any).chrome.webview.postMessage({ type: 'UI_READY' });
+
     } else {
       this.loadData(); // Standard web loading
     }

@@ -1,6 +1,5 @@
 ﻿// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using LingoLearner.Views;
 using System.Windows;
 
 namespace LingoLearner.Services;
@@ -17,14 +16,5 @@ public class DialogService : IDialogService
             caption: messageBoxCaption,
             button: messageBoxButton,
             icon: MessageBoxImage.Information);
-    }
-
-    public void ShowAboutWindow()
-    {
-        AboutWindow aboutWindow = new AboutWindow();
-
-        aboutWindow.Owner = Application.Current.MainWindow;
-
-        aboutWindow.ShowDialog();
     }
 }
