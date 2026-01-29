@@ -42,8 +42,7 @@ export interface UiTranslation {
   emailConfirm: string;
   emailSubject: string;
   emailBody: string;
-
-
+  saveLocal: string;
 }
 
 export const UI_DATA: Record<string, UiTranslation> = {
@@ -69,6 +68,7 @@ export const UI_DATA: Record<string, UiTranslation> = {
     emailConfirm: 'Die Lektion wird heruntergeladen. Dein E-Mail-Programm wird vorbereitet. Bitte hänge die heruntergeladene Datei an die E-Mail an.',
     emailSubject: 'LingoLearner: Neuer Lektionsvorschlag',
     emailBody: 'Hallo!\n\nAnbei sende ich euch eine neue Lektion für LingoLearner.\n\n(Bitte die heruntergeladene JSON-Datei hier anhängen)',
+    saveLocal: 'In lokale Bibliothek speichern',
   },
   'EN': {
     name: 'EN',
@@ -92,6 +92,7 @@ export const UI_DATA: Record<string, UiTranslation> = {
     emailConfirm: 'The lesson will be downloaded. Your email client will be prepared. Please attach the downloaded file to the email.',
     emailSubject: 'LingoLearner: New Lesson Proposal',
     emailBody: 'Hello!\n\nAttached is a new lesson for LingoLearner.\n\n(Please attach the downloaded JSON file here)',
+    saveLocal: 'Save to Local Library',
   },
   'ES': {
     name: 'ES',
@@ -115,6 +116,7 @@ export const UI_DATA: Record<string, UiTranslation> = {
     emailConfirm: 'La lección se descargará. Se preparará tu cliente de correo. Por favor, adjunta el archivo descargado al correo.',
     emailSubject: 'LingoLearner: Propuesta de nueva lección',
     emailBody: '¡Hola!\n\nAdjunto una nueva lección para LingoLearner.\n\n(Por favor, adjunta el archivo JSON descargado aquí)',
+    saveLocal: 'Guardar en la biblioteca local',
   },
   'FR': {
     name: 'FR',
@@ -137,7 +139,8 @@ export const UI_DATA: Record<string, UiTranslation> = {
     emailConfirm: 'La leçon va être téléchargée. Votre logiciel de messagerie va s\'ouvrir. Veuillez joindre le fichier téléchargé à l\'e-mail.',
     emailSubject: 'LingoLearner : Nouvelle proposition de leçon',
     emailBody: 'Bonjour !\n\nVous trouverez ci-joint une nouvelle leçon pour LingoLearner.\n\n(Veuillez joindre le fichier JSON téléchargé ici)',
-    untitled: 'Sans titre'
+    untitled: 'Sans titre',
+    saveLocal: 'Enregistrer dans la bibliothèque locale',
   },
   'ZH': {
     name: 'ZH',
@@ -161,5 +164,6 @@ export const UI_DATA: Record<string, UiTranslation> = {
     emailConfirm: '课程将下载。您的邮件客户端已准备就绪。请将下载的文件添加到邮件附件中。',
     emailSubject: 'LingoLearner: 新课程提议',
     emailBody: '你好！\n\n附件是 LingoLearner 的新课程。\n\n（请在此处添加下载的 JSON 文件）',
+    saveLocal: '保存到本地库',
   }
 };

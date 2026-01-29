@@ -303,7 +303,9 @@ interface ViewItem {
               </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mt-8">
+            <div [class]="isDesktopMode()
+              ? 'grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8'
+              : 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mt-8'">
 
               <button (click)="copyToClipboard()"
                       class="w-full min-h-[64px] py-4 px-4 bg-slate-800 text-white rounded-2xl font-bold text-sm shadow-xl hover:bg-slate-900 active:scale-[0.97] transition-all flex items-center justify-center gap-3 group border-b-4 border-slate-950">
@@ -312,6 +314,8 @@ interface ViewItem {
                 </svg>
                 <span class="leading-tight">{{ t().copyJson }}</span>
               </button>
+              @if (!isDesktopMode()) {
+
 
               <button (click)="submitViaGitHubIssue()"
                       class="w-full min-h-[64px] py-4 px-4 bg-emerald-600 text-white rounded-2xl font-bold text-sm shadow-xl hover:bg-emerald-700 active:scale-[0.97] transition-all flex items-center justify-center gap-3 group border-b-4 border-emerald-800">
@@ -336,7 +340,14 @@ interface ViewItem {
                 </svg>
                 <span class="leading-tight">{{ t().saveJson }}</span>
               </button>
+              }
 
+              @if (isDesktopMode()) {
+                <button (click)="saveToDesktopFolder()"
+                class="w-full min-h-[64px] py-4 px-4 bg-indigo-700 text-white rounded-2xl font-bold text-sm shadow-2xl hover:bg-indigo-800 active:scale-[0.97] transition-all flex items-center justify-center gap-3 group border-b-4 border-indigo-900">
+                  {{ t().saveLocal }}
+                </button>
+              }
             </div>
           </div>
         </div>
@@ -478,6 +489,7 @@ export class App implements OnInit {
 
   // State
   isAdminMode = signal(false);
+  isDesktopMode = signal<boolean>(false);
   isLoading = signal<boolean>(true);
   hasError = signal<boolean>(false);
   allLessons = signal<Lesson[]>([]);
@@ -553,7 +565,21 @@ export class App implements OnInit {
         this.setUiLang(upperLang);
       }
     }
-    this.loadData();
+
+    if ((window as any).chrome?.webview) {
+      this.isDesktopMode.set(true);
+
+      // WebView2 injects an object called window.chrome.webview.
+      (window as any).chrome.webview.addEventListener('message', (event: any) => {
+        const message = event.data;
+        if (message.type === 'LOAD_LESSONS') {
+          this.allLessons.set(message.payload); // Set the lessons from local folder
+          this.isLoading.set(false);
+        }
+      });
+    } else {
+      this.loadData(); // Standard web loading
+    }
   }
 
   loadData() {
@@ -869,6 +895,16 @@ export class App implements OnInit {
       const body = encodeURIComponent(trans.emailBody);
 
       window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+    }
+  }
+
+  saveToDesktopFolder() {
+    if (this.isDesktopMode()) {
+      const lesson = this.newLesson();
+      (window as any).chrome.webview.postMessage({
+        type: 'SAVE_LESSON',
+        payload: lesson
+      });
     }
   }
 }

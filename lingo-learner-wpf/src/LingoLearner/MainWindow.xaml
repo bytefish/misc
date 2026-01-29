@@ -1,0 +1,29 @@
+﻿<Window x:Class="LingoLearner.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:misc="clr-namespace:LingoLearner.Misc" 
+        xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+        mc:Ignorable="d"
+        x:Name="RootWindow"
+        Closing="Window_Closing"
+        AllowsTransparency="False"
+        WindowStartupLocation="CenterScreen"
+        Title="Lingo Learner (Desktop)" 
+        
+        Height="800" Width="1157">
+    <Window.InputBindings>
+        <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding SaveDocumentCommand}"/>
+        <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding LoadDocumentCommand}"/>
+        <KeyBinding Key="Q" Modifiers="Ctrl" Command="{Binding QuitCommand}"/>
+        <KeyBinding Key="Z" Modifiers="Ctrl" Command="{Binding UndoCommand}"/>
+        <KeyBinding Key="Y" Modifiers="Ctrl" Command="{Binding RedoCommand}"/>
+        <KeyBinding Key="H" Modifiers="Ctrl" Command="{Binding ShowAboutWindowCommand}"/>
+        <KeyBinding Key="N" Modifiers="Ctrl" Command="{Binding NewDocumentCommand}"/>
+    </Window.InputBindings>
+
+    <Grid>
+        <wv2:WebView2 Name="webView" Source="https://app.local/index.html" />
+    </Grid>
+</Window>
