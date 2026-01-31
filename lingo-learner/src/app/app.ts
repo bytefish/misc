@@ -579,8 +579,6 @@ export class App implements OnInit {
         const message = event.data;
         if (message.type === 'LOAD_LESSONS') {
           this.zone.run(() => {
-            console.log("Setting Payload: ", message.payload);
-
             this.allLessons.set(message.payload); // Set the lessons from local folder
             this.isLoading.set(false);
             this.selectLanguage('EN');
